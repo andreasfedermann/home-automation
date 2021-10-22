@@ -1,0 +1,61 @@
+﻿@inherits LayoutComponentBase
+
+<MudLayout>
+    <MudThemeProvider Theme="DarkTheme" />
+    <MudDialogProvider />
+    <MudSnackbarProvider />
+
+    <MudAppBar Elevation="1">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
+        <MudAppBarSpacer />
+    </MudAppBar>
+    <MudDrawer @bind-Open="@open" Fixed="false" Elevation="1" Variant="@DrawerVariant.Persistent">
+        <NavMenu />
+    </MudDrawer>
+    <MudGrid Justify="Justify.SpaceEvenly">
+        <MudItem xs="8">
+            <MudMainContent Class="pt-16 px-16">
+                <MudContainer Class="mt-6">
+                    @Body
+                </MudContainer>
+            </MudMainContent>
+        </MudItem>
+        <MudItem xs="8">
+            <MudTextField T="string" Label="Logs" Variant="Variant.Outlined" Text="@sampleText" Lines="5" />
+        </MudItem>
+    </MudGrid>
+    <footer>
+    </footer>
+</MudLayout>
+
+@code{
+    List<string> sampleTexts = new List<string> { "First", "Second" };
+    string sampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit\n, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+    bool open = true;
+
+    void ToggleDrawer()
+    {
+        open = !open;
+    }
+
+    MudTheme DarkTheme = new MudTheme()
+    {
+        Palette = new Palette()
+        {
+            Black = "#27272f",
+            Background = "#32333d",
+            BackgroundGrey = "#27272f",
+            Surface = "#373740",
+            DrawerBackground = "#27272f",
+            DrawerText = "rgba(255,255,255, 0.50)",
+            DrawerIcon = "rgba(255,255,255, 0.50)",
+            AppbarBackground = "#27272f",
+            AppbarText = "rgba(255,255,255, 0.70)",
+            TextPrimary = "rgba(255,255,255, 0.70)",
+            TextSecondary = "rgba(255,255,255, 0.50)",
+            ActionDefault = "#adadb1",
+            ActionDisabled = "rgba(255,255,255, 0.26)",
+            ActionDisabledBackground = "rgba(255,255,255, 0.12)"
+        }
+    };
+}

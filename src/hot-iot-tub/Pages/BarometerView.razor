@@ -1,0 +1,53 @@
+﻿@page "/barometerdata"
+
+@using DataModels
+@using Microsoft.AspNetCore.SignalR.Client
+@inject NavigationManager NavigationManager
+@implements IAsyncDisposable
+
+<MudCard>
+    <MudCardContent>
+        <MudText>Pressure Hectopascals</MudText>
+        <MudText Typo="Typo.body2">@_barometer.PressureHectopascals.ToString("F2")</MudText>
+
+        <MudText>Temperature °C</MudText>
+        <MudText Typo="Typo.body2">@_barometer.TemperatureC.ToString("F2")</MudText>
+
+        <MudText>Temperature °F</MudText>
+        <MudText Typo="Typo.body2">@_barometer.TemperatureF.ToString("F2")</MudText>
+    </MudCardContent>
+    @*<MudCardActions>
+        <MudButton Variant="Variant.Text" Color="Color.Primary">Learn More</MudButton>
+    </MudCardActions>*@
+</MudCard>
+
+@code {
+    private HubConnection hubConnection;
+    private List<IBarometer> measurementData = new List<IBarometer>();
+
+    private Barometer _barometer = new Barometer();
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/barometerhub"))
+            .Build();
+
+        hubConnection.On<Barometer>("ReceiveMessage", (barometer) =>
+        {
+            _barometer = barometer;
+
+            StateHasChanged();
+        });
+
+        await hubConnection.StartAsync();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+}

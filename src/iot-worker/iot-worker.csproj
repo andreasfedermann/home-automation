@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>dotnet-iot_worker-CCB06A4C-42E2-44B9-8A18-BEE4AF6DB0C0</UserSecretsId>
+    <RootNamespace>iot_worker</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Iot.Device.Bindings" Version="1.5.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="5.0.11" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DataModels\DataModels.csproj" />
+  </ItemGroup>
+</Project>

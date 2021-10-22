@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "iot_worker": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": "true"
+    }
+  }
+}
