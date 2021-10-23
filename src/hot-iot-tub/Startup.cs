@@ -31,7 +31,6 @@ namespace hot_iot_tub
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<BarometerService>();
             services.AddMudServices();
             services.AddResponseCompression(opts =>
