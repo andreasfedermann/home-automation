@@ -47,12 +47,4 @@
     <MSBuild Projects="@(_ProjectsToPackage)" Targets="Pack" />
   </Target>
 
-  <Target Name="Pack">
-    <ItemGroup>
-      <_NugetPackagePath Include="$(MSBuildThisFileDirectory)src\DataModels\**\*.nupgk" />
-    </ItemGroup>
-
-    <MSBuild Projects="@(_ProjectsToPackage)" Targets="Pack" />
-  </Target>
-
 </Project>

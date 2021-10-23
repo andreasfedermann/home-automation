@@ -6,6 +6,7 @@
     <PackageId>DataModels</PackageId>
     <Version>1.0.0</Version>
     <Authors>Andreas Federmann</Authors>
+    <RepositoryUrl>https://github.com/andreasfedermann/home-automation</RepositoryUrl>
   </PropertyGroup>
   
 </Project>
