@@ -1,0 +1,32 @@
+name: Package and Publish nuget package
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'src/DataModels/**/*'
+
+  push:
+    paths:
+      - '**.js'
+
+jobs:
+  build-and-publish-nuget-packages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: "Add NuGet Source"
+        run: |
+          dotnet nuget add source --username ${{ github.actor }} \
+            --password ${{ secrets.GITHUB_TOKEN }} \
+            --store-password-in-clear-text \
+            --name github "https://nuget.pkg.github.com/${{ github.actor }}/index.json"
+
+      - name: "Pack NuGet Package"
+        run: |
+          dotnet pack --configuration Release
+
+      - name: "Push NuGet Package"
+        run: |
+          dotnet nuget push "./**/*.nupkg"  --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
