@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace hot_iot_tub.Pages
 {
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    [IgnoreAntiforgeryToken]
+    [AutoValidateAntiforgeryToken]
     public class ErrorModel : PageModel
     {
         public string RequestId { get; set; }

@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MudBlazor.Services;
 using hot_iot_tub.SignalRHubs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace hot_iot_tub
 {
@@ -29,7 +30,11 @@ namespace hot_iot_tub
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
+            services.AddRazorPages()
+                    .AddRazorPagesOptions(options =>
+                    {
+                        options.Conventions.ConfigureFilter(new AutoValidateAntiforgeryTokenAttribute());
+                    });
             services.AddServerSideBlazor();
             services.AddSingleton<BarometerService>();
             services.AddMudServices();

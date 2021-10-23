@@ -48,7 +48,7 @@ namespace iot_worker.SignalR
             _hubConnection.Closed += async (error) =>
             {
                 HubConnectionEstalbished = false;
-                await Task.Delay(new Random().Next(0, 5) * 1000);
+                await Task.Delay(_configuration.GetSection("SignalR").GetValue<int>("RetryIntervalMillis"));
                 await _hubConnection.StartAsync();
             };
 

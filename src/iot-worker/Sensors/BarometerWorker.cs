@@ -22,15 +22,13 @@ namespace iot_worker.Sensors
         {
             await _signalRConnector.ConnectWithRetryAsync(stoppingToken);
 
-#if !DEBUG
             var i2cSettings = new I2cConnectionSettings(1, Bmp180.DefaultI2cAddress);
             using I2cDevice i2cDevice = I2cDevice.Create(i2cSettings);
             using var bmp180 = new Bmp180(i2cDevice);
-#endif
+
             while (!stoppingToken.IsCancellationRequested)
             {
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-#if !DEBUG
 
                 var valuesToSend = new Barometer
                 {
@@ -39,17 +37,7 @@ namespace iot_worker.Sensors
                     TemperatureC = bmp180.ReadTemperature().DegreesCelsius,
                     TemperatureF = bmp180.ReadTemperature().DegreesFahrenheit
                 };
-#endif
-#if DEBUG
-                var valuesToSend = new Barometer
-                {
-                    Date = DateTime.Now,
-                    Altitude = new Random().NextDouble(),
-                    PressureHectopascals = new Random().NextDouble(),
-                    TemperatureC = new Random().NextDouble(),
-                    TemperatureF = new Random().NextDouble()
-                };
-#endif
+
                 if (_signalRConnector.HubConnectionEstalbished)
                 {
                     await _signalRConnector.SendAsync(valuesToSend);
