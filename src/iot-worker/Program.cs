@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 
 namespace iot_worker
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {

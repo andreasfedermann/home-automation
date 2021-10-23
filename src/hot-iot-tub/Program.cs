@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace hot_iot_tub
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {

@@ -12,28 +12,21 @@ namespace hot_iot_tub.Data
         public Task<Barometer> GetForecastAsync()
         {
             var i2cSettings = new I2cConnectionSettings(1, Bmp180.DefaultI2cAddress);
-            try
+
+            using I2cDevice i2cDevice = I2cDevice.Create(i2cSettings);
+            using var bmp180 = new Bmp180(i2cDevice);
+
+            var tempValue = bmp180.ReadTemperature();
+            var preValue = bmp180.ReadPressure();
+            var altValue = bmp180.ReadAltitude();
+
+            return Task.FromResult(new Barometer
             {
-                using I2cDevice i2cDevice = I2cDevice.Create(i2cSettings);
-                using var bmp180 = new Bmp180(i2cDevice);
-
-                var tempValue = bmp180.ReadTemperature();
-                var preValue = bmp180.ReadPressure();
-                var altValue = bmp180.ReadAltitude();
-
-                return Task.FromResult(new Barometer
-                {
-                    TemperatureC = tempValue.DegreesCelsius,
-                    TemperatureF = tempValue.DegreesFahrenheit,
-                    PressureHectopascals = preValue.Hectopascals,
-                    Altitude = altValue.Meters
-                });
-            }
-            catch (Exception exception)
-            {
-
-                throw;
-            }
+                TemperatureC = tempValue.DegreesCelsius,
+                TemperatureF = tempValue.DegreesFahrenheit,
+                PressureHectopascals = preValue.Hectopascals,
+                Altitude = altValue.Meters
+            });
         }
     }
 }

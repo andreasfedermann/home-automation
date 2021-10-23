@@ -17,7 +17,7 @@ namespace iot_worker.SignalR
     public class SignalRConnector : ISignalRConnector
     {
         private readonly IConfiguration _configuration;
-        private IHubConnectionBuilder _hubConnectionBuilder;
+        private readonly IHubConnectionBuilder _hubConnectionBuilder;
         private HubConnection _hubConnection;
         private readonly ILogger<SignalRConnector> _logger;
 
@@ -81,7 +81,7 @@ namespace iot_worker.SignalR
                 );
             });
 
-            var retryInterval = _configuration.GetSection("SignalR").GetValue<int>("RetryInterval");
+            var retryInterval = _configuration.GetSection("SignalR").GetValue<int>("RetryIntervalMillis");
             // Keep trying to until we can start or the token is canceled.
             while (true)
             {
@@ -99,10 +99,9 @@ namespace iot_worker.SignalR
                 }
                 catch
                 {
-                    // Failed to connect, trying again in 5000 ms.
                     Debug.Assert(_hubConnection.State == HubConnectionState.Disconnected);
-                    _logger.LogInformation("Failed to connect, trying again in 5000 ms.");
-                    await Task.Delay(5000, token);
+                    _logger.LogInformation($"Failed to connect, trying again in {retryInterval} ms.");
+                    await Task.Delay(retryInterval, token);
                 }
             }
         }
