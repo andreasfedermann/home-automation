@@ -67,4 +67,4 @@ jobs:
 
       - name: "Push NuGet Package"
         run: |
-          dotnet nuget push "src/**/*.nupkg"  --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
+          dotnet nuget push "src/**/*.nupkg"  --api-key ${{ secrets.GITHUB_TOKEN }} --source "github" --skip-duplicate
